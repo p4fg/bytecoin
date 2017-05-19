@@ -1,4 +1,9 @@
--= Building CryptoNote =-
+-= This is a modified version of Bytecoin =-
+
+The startingblock for checking keyimages have been altered to the start of the chain and if a forged keyimage is found it will be printed to the console (crude i know) and the validation will continue.
+
+
+To build for yourself:
 
 On *nix:
 

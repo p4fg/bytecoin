@@ -89,9 +89,9 @@ struct EllipticCurveScalar {
     friend void generate_ring_signature(const Hash &, const KeyImage &,
       const PublicKey *const *, size_t, const SecretKey &, size_t, Signature *);
     static bool check_ring_signature(const Hash &, const KeyImage &,
-      const PublicKey *const *, size_t, const Signature *, bool);
+      const PublicKey *const *, size_t, const Signature *, bool ,uint32_t);
     friend bool check_ring_signature(const Hash &, const KeyImage &,
-      const PublicKey *const *, size_t, const Signature *, bool);
+      const PublicKey *const *, size_t, const Signature *, bool, uint32_t);
   };
 
   /* Generate a value filled with random bytes.
@@ -231,8 +231,8 @@ struct EllipticCurveScalar {
   }
   inline bool check_ring_signature(const Hash &prefix_hash, const KeyImage &image,
     const PublicKey *const *pubs, size_t pubs_count,
-    const Signature *sig, bool checkKeyImage) {
-    return crypto_ops::check_ring_signature(prefix_hash, image, pubs, pubs_count, sig, checkKeyImage);
+    const Signature *sig, bool checkKeyImage, uint32_t blockIndex) {
+    return crypto_ops::check_ring_signature(prefix_hash, image, pubs, pubs_count, sig, checkKeyImage, blockIndex);
   }
 
   /* Variants with vector<const PublicKey *> parameters.
@@ -245,8 +245,8 @@ struct EllipticCurveScalar {
   }
   inline bool check_ring_signature(const Hash &prefix_hash, const KeyImage &image,
     const std::vector<const PublicKey *> &pubs,
-    const Signature *sig, bool checkKeyImage) {
-    return check_ring_signature(prefix_hash, image, pubs.data(), pubs.size(), sig, checkKeyImage);
+    const Signature *sig, bool checkKeyImage, uint32_t blockIndex) {
+    return check_ring_signature(prefix_hash, image, pubs.data(), pubs.size(), sig, checkKeyImage, blockIndex);
   }
 
 }

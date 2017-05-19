@@ -403,7 +403,7 @@ namespace Crypto {
 
   bool crypto_ops::check_ring_signature(const Hash &prefix_hash, const KeyImage &image,
     const PublicKey *const *pubs, size_t pubs_count,
-    const Signature *sig, bool checkKeyImage) {
+    const Signature *sig, bool checkKeyImage, uint32_t blockIndex) {
     size_t i;
     ge_p3 image_unp;
     ge_dsmp image_pre;
@@ -419,7 +419,7 @@ namespace Crypto {
     }
     ge_dsm_precomp(image_pre, &image_unp);
     if (checkKeyImage && ge_check_subgroup_precomp_vartime(image_pre) != 0) {
-      return false;
+      printf("\nFaulty keyimage found in block %u!\n",blockIndex);
     }
     sc_0(reinterpret_cast<unsigned char*>(&sum));
     buf->h = prefix_hash;

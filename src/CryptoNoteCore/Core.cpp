@@ -630,6 +630,7 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
 
   auto ret = error::AddBlockErrorCode::ADDED_TO_ALTERNATIVE;
 
+
   if (addOnTop) {
     if (cache->getChildCount() == 0) {
       // add block on top of leaf segment.
@@ -921,6 +922,7 @@ bool Core::addTransactionToPool(CachedTransaction&& cachedTransaction) {
 
 bool Core::isTransactionValidForPool(const CachedTransaction& cachedTransaction, TransactionValidatorState& validatorState) {
   uint64_t fee;
+
 
   if (auto validationResult = validateTransaction(cachedTransaction, validatorState, chainsLeaves[0], fee, getTopBlockIndex())) {
     logger(Logging::WARNING) << "Transaction " << cachedTransaction.getTransactionHash()
@@ -1247,7 +1249,7 @@ std::error_code Core::validateTransaction(const CachedTransaction& cachedTransac
         std::for_each(outputKeys.begin(), outputKeys.end(), [&outputKeyPointers] (const Crypto::PublicKey& key) { outputKeyPointers.push_back(&key); });
         if (!Crypto::check_ring_signature(cachedTransaction.getTransactionPrefixHash(), in.keyImage, outputKeyPointers.data(),
                                           outputKeyPointers.size(), transaction.signatures[inputIndex].data(),
-                                          blockIndex > parameters::KEY_IMAGE_CHECKING_BLOCK_INDEX)) {
+                                          blockIndex > parameters::KEY_IMAGE_CHECKING_BLOCK_INDEX,blockIndex)) {
           return error::TransactionValidationError::INPUT_INVALID_SIGNATURES;
         }
       }

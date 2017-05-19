@@ -42,7 +42,10 @@ bool Checkpoints::addCheckpoint(uint32_t index, const std::string &hash_str) {
 }
 //---------------------------------------------------------------------------
 bool Checkpoints::isInCheckpointZone(uint32_t index) const {
-  return !points.empty() && (index <= (--points.end())->first);
+   return false;
+
+   // Use if you out of performance-reasons only want to check blocks from 2017
+   // return index < 1168962;
 }
 //---------------------------------------------------------------------------
 bool Checkpoints::checkBlock(uint32_t index, const Crypto::Hash &h,
